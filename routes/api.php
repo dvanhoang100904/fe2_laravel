@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/products/all', [ProductController::class, 'productsAllAPI']);
 Route::get('/products/search/{keyword}', [ProductController::class, 'searchAPI']);
+Route::post('/products/{id}/comment', [CommentController::class, 'storeAPI'])->name('comments.store-api');
