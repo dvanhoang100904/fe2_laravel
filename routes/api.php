@@ -19,6 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/products/all', [ProductController::class, 'productsAllAPI']);
+Route::get('/products/all', [ProductController::class, 'productsAllAPI'])->name('product-all-api');
 Route::get('/products/search/{keyword}', [ProductController::class, 'searchAPI']);
 Route::post('/products/{id}/comment', [CommentController::class, 'storeAPI'])->name('comments.store-api');
