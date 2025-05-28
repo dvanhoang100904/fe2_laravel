@@ -15,9 +15,15 @@ async function suggestSearch(keyword) {
         console.log(url);
 
         result.forEach((element) => {
+            const regex = new RegExp("(" + keyword + ")", "gi");
+            const productName = element.name.replace(
+                regex,
+                `<span class="highlight"> ${keyword} </span>`
+            );
+
             const li = document.createElement("li");
             li.classList.add("list-group-item");
-            li.textContent = element.name; // Display product name
+            li.innerHTML = productName; // Display product name
             suggest.append(li); // Add suggestion to list
         });
         console.log(result); // Debugging log
