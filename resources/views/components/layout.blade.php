@@ -69,7 +69,7 @@
     <script src="{{ asset('js/script.js') }}"></script>
     <!-- Footer -->
     <footer class="bg-dark text-center text-white py-3">Copyright 2025</footer>
-
+    {{ $js ?? '' }}
 </body>
 
 </html>

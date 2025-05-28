@@ -34,6 +34,13 @@ class CommentController extends Controller
         $product->comments()->save($comment);
         return back();
     }
+    public function storeAPI(Request $request, string $id)
+    {
+        $comment = new Comment($request->all());
+        $product = Product::find($id);
+        $product->comments()->save($comment);
+        return $product->comments;
+    }
 
     /**
      * Display the specified resource.

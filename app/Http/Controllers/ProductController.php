@@ -35,8 +35,8 @@ class ProductController extends Controller
             'name' => 'required|max:255',
             'price' => 'required|numeric',
             'description' => 'required',
-            'photo' => 'required', 
-            'categories' => 'required', 
+            'photo' => 'required',
+            'categories' => 'required',
         ], [
             'name.required' => 'Phải nhập tên sản phẩm',
             'name.max' => 'Tên quá dài',
@@ -46,9 +46,9 @@ class ProductController extends Controller
             'categories.required' => 'Phải chọn danh mục',
         ]);
 
-        
+
         Product::create($validated)->categories()->attach($validated['categories']);
-        
+
         return redirect()->route('products.index');
     }
 
@@ -80,8 +80,8 @@ class ProductController extends Controller
             'name' => 'required|max:255',
             'price' => 'required|numeric',
             'description' => 'required',
-            'photo' => 'required', 
-            'categories' => 'required', 
+            'photo' => 'required',
+            'categories' => 'required',
         ], [
             'name.required' => 'Phải nhập tên sản phẩm',
             'name.max' => 'Tên quá dài',
@@ -94,7 +94,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->update($validated);
         $product->categories()->sync($validated['categories']);
-        
+
         return redirect()->route('products.index');
     }
 
@@ -108,32 +108,36 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    function search(Request $request) {
+    function search(Request $request)
+    {
         $keyword = $request->q;
         $products = Product::where('name', 'LIKE', "%$keyword%")->get();
 
         return view('products.search', ['products' => $products]);
-
     }
 
-    public function bin() {
+    public function bin()
+    {
         $products = Product::onlyTrashed()->get();
         return view('products.bin', ['products' => $products]);
     }
 
-    public function restore(string $id) {
+    public function restore(string $id)
+    {
         $products = Product::onlyTrashed()->find($id)->restore();
         return redirect()->route('products.index');
     }
 
-    public function forceDelete(string $id) {
+    public function forceDelete(string $id)
+    {
         $product = Product::onlyTrashed()->find($id);
         $product->categories()->detach();
         $product->forceDelete();
         return redirect()->route('products.index');
     }
 
-    public function empty() {
+    public function empty()
+    {
         $products = Product::onlyTrashed()->get();
         foreach ($products as $product) {
             $product->categories()->detach();
@@ -142,15 +146,16 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function productsAllAPI() {
-        $products = Product::all();
+    public function productsAllAPI()
+    {
+        $products = Product::with('categories')->get();
         return $products;
     }
 
-    public function searchAPI(string $keyword) {
+    public function searchAPI(string $keyword)
+    {
         $products = Product::where('name', 'LIKE', "%$keyword%")->get();
 
         return $products;
-
     }
 }
