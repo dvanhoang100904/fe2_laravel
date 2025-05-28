@@ -15,17 +15,19 @@ async function suggestSearch(keyword) {
         console.log(url);
 
         result.forEach((element) => {
-            const regex = new RegExp("(" + keyword + ")", "gi");
-            const productName = element.name.replace(
-                regex,
-                `<span class="highlight"> ${keyword} </span>`
-            );
+            // const regex = new RegExp('(' + keyword + ')', 'gi');
+            // const productName = element.name.replace(
+            //     regex,
+            //     `<span class="highlight"> ${keyword} </span>`
+            // );
 
             const li = document.createElement("li");
             li.classList.add("list-group-item");
-            li.innerHTML = productName; // Display product name
+            li.innerHTML = element.name; // Display product name
             suggest.append(li); // Add suggestion to list
         });
         console.log(result); // Debugging log
+        var instance = new Mark(suggest);
+        instance.mark(keyword);
     }
 }
